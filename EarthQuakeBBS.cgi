@@ -11,12 +11,8 @@ import cgitb
 cgitb.enable()
 
 import cgi
-import os
 import sqlite3
 import datetime
-import locale
-now = datetime.datetime.today()
-
 
 print '<h1>地震関連情報掲示板</h1>'
 print '<h4>地震に関連した情報はここで共有しましょう！</h4>'
@@ -26,27 +22,26 @@ print '<hr>'
 print '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"'
 print '"http://www.w3.org/TR/html4/loose.dtd"><html><head>'
 print '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">'
-print '<meta http-equiv="Content-Style-Type" content="text/css">'
-print '<meta http-equiv="Content-Script-Type" content="text/javascript">'
-print '<link rel=stylesheet type="text/css" href="/jishin/default.css"> '
+#print '<meta http-equiv="Content-Style-Type" content="text/css">'
+#print '<meta http-equiv="Content-Script-Type" content="text/javascript">'
+#print '<link rel=stylesheet type="text/css" href="default.css"> '
 print '<title>地震関連情報掲示板</title></head><body>'
 
+#form
 print '<form method="POST" action="EarthQuakeBBS.cgi">'
+
+#list of employee
 print '<p>入力者：<select name="tanName">'
 print '<option>　</option>'
 
 #conect Database
-con = sqlite3.connect("jishinDB.sqlite", isolation_level=None)
+con = sqlite3.connect("EarthQuakeBBS.sqlite", isolation_level=None)
 
-#list of employee
 result = con.cursor()
 result.execute(u"select * from tanName")
 for item in result:
-	print '<OPTION value="'
-	print "%s" % item[0]
-	print '">'
-	print "%s" % item[1].encode('utf_8') 
-	print '</OPTION>'
+	print '<option value="%s">%s</option>' % (item[0], item[1].encode('utf_8'))
+
 print '</select>'
 
 #other form items
@@ -66,7 +61,8 @@ if (form.has_key('tanName') and form.has_key('title') and form.has_key('content'
 	tan = form['tanName'].value
 	tit = form['title'].value
 	cont = form['content'].value
-	datestr = '%s/%s/%s %s:%s:%s' % (now.year, now.month, now.day, now.hour, now.minute, now.second)
+	now = datetime.datetime.today()
+	datestr = '%s/%s/%s %s:%s:%s' % (now.year, now.month, now.day, now.hour, now.minute, now.second)#today's date
 	sql = u'insert into kakikomi (tanName, content, datetime, title) values (%s, "%s", "%s", "%s")' % (tan, cont, datestr, tit)
 	print sql
 	con.execute(sql)
