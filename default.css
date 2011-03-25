@@ -1,0 +1,28 @@
+@charset "utf-8";
+/* CSS Document */
+body{
+	background-color:#FCFCFC;
+	margin-left: 30px;
+	margin-right: 30px;
+}
+
+.space01{
+	width:465px;
+}
+
+.title{
+	background-color:#7F7F7F;
+	color:#FFF;
+	font-size:15px;
+	font-weight:bold;
+	padding:5px;
+	margin-bottom:10px;
+}
+
+.txtbox{
+	padding:5px;
+	border-color:#C4C4C4;
+	border-width:1px;
+	border-style:solid;
+	height:150px;
+}
